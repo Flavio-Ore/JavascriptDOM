@@ -1,0 +1,35 @@
+.header {
+  min-width: 100%;
+  background-color: var(--main-color);
+}
+.header h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.main h1 {
+  text-align: center;
+}
+
+.stop-watch h2 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.toggleH2 {
+  position: absolute;
+  /*top: -9999rem;*/
+  z-index: -1000;
+  opacity: 0;
+}
+
+.button-wrapper {
+  display: flex;
+}
+
+.button {
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem;
+  border-radius: solid 1px 5%;
+}

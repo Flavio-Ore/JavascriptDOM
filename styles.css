@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box
+}
+
+:root {
+  --orange-color: #f70;
+  --green-color: #0404
+}
+
+body{
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: #f2f2f2;
+  word-break: break-all;
+  background-color: #020202
+}
+
+ul {
+  margin: 0px;
+}
+
+.event-flow div{
+  padding: 4rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.one, .two, .thee{
+  color: #121212
+}
+
+.one{
+  background-color: yellow;
+}
+
+.two {
+  background-color: gold;
+}
+
+.three{
+  background-color: lightyellow;
+}
+
+.un-list-1{
+  background-color: brown;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 2rem;
+  font-size: 2rem;
+  max-width: 40%;
+  border-radius: 10%;
+}
+
+.list-items-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.list-items-wrapper > li{
+  margin-left: 2rem
+}
+
+.link-dom{
+  font-size: 2em;
+  background-color: rgb(165, 51, 51);
+}
+
+.link-dom:hover{
+  font-size: 8em;
+}
+
+.cards{
+  border: thin solid var(--orange-color);
+  padding: 1rem;
+}
+
+.card{
+  display:inline-block;
+  background-color: var(--green-color);
+  color: var(--orange-color);
+}
+
+.card figcaption{
+  text-align: center;
+  padding: 1rem;
+}
+
+.rotate-45{
+  transform: rotate(45deg)
+}
+
+.rotate-135{
+  transform: rotate(135deg)
+}
+
+.opacity-80{
+  opacity: .8;
+}
+
+.sepia{
+  filter: sepia(1)
+}
