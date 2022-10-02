@@ -5,17 +5,13 @@ const d = document,
   $startAlarm = d.querySelector("#startAlarm"),
   $stopAlarm = d.querySelector("#stopAlarm"),
   $template = d.querySelector("#template1"),
-  $fragment = d.createDocumentFragment()
+  $fragment = d.createDocumentFragment(),
+  alarmAudio = new Audio(
+    "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+  )
 
-const now = {
-  s: new Date().getSeconds(),
-  m: new Date().getMinutes(),
-  h: new Date().getHours(),
-}
-
-$template.content.querySelector(
-  "h2"
-).textContent = `${now.h} : ${now.m} : ${now.s}`
+$template.content.querySelector("h2").textContent =
+  new Date().toLocaleTimeString()
 
 let clone = $template.content.querySelector("h2").cloneNode(true)
 
@@ -24,18 +20,13 @@ $fragment.appendChild(clone)
 $main.querySelector(".stop-watch").append($fragment)
 
 setInterval(() => {
-  now.s = new Date().getSeconds()
-  now.m = new Date().getMinutes()
-  now.h = new Date().getHours()
-
-  $template.content.querySelector(
-    "h2"
-  ).textContent = `${now.h} : ${now.m} : ${now.s}`
+  $template.content.querySelector("h2").textContent =
+    new Date().toLocaleTimeString()
 
   clone = $template.content.querySelector("h2").cloneNode(true)
 
   $fragment.appendChild(clone)
-  $fragment.firstChild.textContent = `${now.h} : ${now.m} : ${now.s}`
+  $fragment.firstChild.textContent = new Date().toLocaleTimeString()
 
   $main.querySelector("h2").remove()
   $main.querySelector(".stop-watch").append($fragment)
@@ -53,8 +44,14 @@ d.addEventListener("click", (e) => {
   }
 
   if (e.target.matches("#startAlarm")) {
+    e.target.setAttribute("disabled", "")
+    alarmAudio.play()
+    alarmAudio.loop = true
   }
 
-  if (e.target.matches("#stopAlarm")) {
+  if (e.target.matches("#stopAlarm") && $startAlarm.hasAttribute("disabled")) {
+    alarmAudio.loop = false
+    alarmAudio.pause()
+    $startAlarm.removeAttribute("disabled")
   }
 })

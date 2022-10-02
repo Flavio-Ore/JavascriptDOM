@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <link rel="stylesheet" href="respo.css" />
+    <title>Responsible Javascript</title>
+  </head>
+  <body>
+    <h1 id="asd">Responsive JS</h1>
+    <section class="APIS">
+      <h2>Google Maps API</h2>
+      <div class="googleMapsAPI" id="mapAPIContainer"></div>
+      <h2>Youtube API</h2>
+      <div class="youtubeAPI" id="ytAPIContainer"></div>
+    </section>
+    <template id="apisTemplate">
+      <a
+        class="responsiveGmaps"
+        href="https://www.google.com/maps/@-12.0262676,-77.1278644,11z"
+        target="_blank"
+        rel="noopener"
+        >https://www.google.com/maps/@-12.0262676,-77.1278644,11z</a
+      >
+      <div class="mapTemplateContainer">
+        <div class="mapouter">
+          <div class="gmap_canvas">
+            <iframe
+              width="100%"
+              height="600"
+              id="gmap_canvas"
+              src="https://maps.google.com/maps?q=Lima&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+            ></iframe
+            ><a href="https://www.whatismyip-address.com/divi-discount/"
+              >divi discount</a
+            ><br /><a href="https://www.embedgooglemap.net"
+              >google map api for website</a
+            >
+          </div>
+        </div>
+      </div>
+      <a
+        class="responsiveYt"
+        href="https://www.youtube.com/watch?v=9uIcLSHgzrM&list=PLvq-jIkSeTUZ6QgYYO3MwG9EMqC-KoLXA&index=93"
+        target="_blank"
+        rel="noopener"
+        >https://www.youtube.com/watch?v=9uIcLSHgzrM&list=PLvq-jIkSeTUZ6QgYYO3MwG9EMqC-KoLXA&index=93</a
+      >
+      <div class="ytTemplateContainer">
+        <div class="yt-frame">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/6IwUl-4pAzc"
+            title="Responsive Javascript"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </template>
+    <script type="module" src="importing.js"></script>
+  </body>
+</html>

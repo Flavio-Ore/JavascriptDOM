@@ -1,0 +1,13 @@
+body {
+  background-color: #090909;
+}
+h1 {
+  background-color: var(--main-color);
+  margin: 0;
+  text-align: center;
+}
+
+.countdown {
+  color: #f2f2f2;
+  text-align: center;
+}

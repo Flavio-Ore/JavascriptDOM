@@ -1,0 +1,60 @@
+:root {
+  --snd-color: #fcc;
+  --mn-color: #020202;
+}
+body {
+  color: var(--snd-color);
+  background-color: var(--mn-color);
+}
+main > section {
+  height: 100vh;
+  text-align: center;
+}
+
+.reset-scroll {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  font-size: 3rem;
+  padding: 1rem;
+  border-color: var(--snd-color);
+  border-style: solid;
+  background-color: var(--mn-color);
+  color: var(--snd-color);
+  cursor: pointer;
+  opacity: 0;
+  transition: background-color 0.4s ease, opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+.reset-scroll:hover {
+  background-color: var(--snd-color);
+  color: var(--mn-color);
+}
+
+.light-dark {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  border-style: solid;
+  border-color: var(--snd-color);
+  background-color: var(--mn-color);
+  color: var(--snd-color);
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.light-dark:hover {
+  border-color: var(--mn-color);
+  background-color: var(--snd-color);
+  color: var(--mn-color);
+}
+
+.moon_sun {
+  font-size: 3rem;
+}

@@ -1,0 +1,468 @@
+:root {
+  --main-font: monospace;
+  --font-size: 16px;
+  --main-color: #f7df1e;
+  --second-color: #222;
+  --main-modal-color: rgba(247, 222, 30, 0.85);
+  --second-modal-color: rgba(34, 34, 34, 0.85);
+  --container-width: 1200px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 997;
+  padding: 1rem;
+  background-color: var(--main-color);
+  color: var(--second-color);
+}
+
+.header h1 {
+  margin: 0 auto;
+  text-align: center;
+}
+.section {
+  padding: 4rem 2rem 2rem 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  max-width: var(--container-width);
+  min-height: 100vh;
+  outline: solid 1px #222;
+  text-align: center;
+}
+
+/*^----------- Hamburger menu -----------*/
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  width: 100%;
+  background-color: var(--second-modal-color);
+  opacity: 0;
+  overflow: hidden;
+  transition: transform 0.5s ease, opacity 0.7s ease;
+  /* From up */
+  transform: translate(-100%, 0);
+}
+
+.panel.is-active {
+  transform: translate(0, 0);
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: inherit;
+  text-align: center;
+}
+
+.menu a {
+  display: block;
+  width: inherit;
+  padding: 2rem;
+  color: var(--main-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: all 0.3 ease;
+}
+
+.menu a:hover {
+  font-weight: bold;
+  color: var(--second-color);
+  background-color: var(--main-modal-color);
+}
+
+.panel-btn {
+  position: fixed;
+  right: 1vw;
+  bottom: 1vh;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--main-color);
+}
+/*^----------- Keyboard Events -----------*/
+
+.stage {
+  display: flex;
+  min-height: 50vh;
+  background-color: var(--second-color);
+}
+
+.ball {
+  margin: auto;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--main-color);
+}
+/*^----------- Scroll Top Button -----------*/
+.scroll-top-btn {
+  position: fixed;
+  z-index: 999;
+  bottom: 1vh;
+  right: calc(4.25rem + 1vw);
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: var(--main-color);
+  color: var(--second-color);
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.scroll-top-btn:hover {
+  background-color: var(--second-color);
+  color: var(--main-color);
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/*^----------- Dark Theme Button -----------*/
+
+.dark-theme-btn {
+  position: fixed;
+  z-index: 999;
+  bottom: 1vh;
+  left: 1vw;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: var(--main-color);
+  color: var(--second-color);
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.dark-theme-btn:hover {
+  background-color: var(--second-color);
+  color: var(--main-color);
+}
+
+.dark-mode {
+  color: var(--main-color);
+  background-color: var(--second-color);
+}
+
+/*^----------- Network Status -----------*/
+.online,
+.offline {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #1b5e20;
+  color: #f2f2f2;
+}
+
+.offline {
+  background-color: #b71c1c;
+}
+
+/*^----------- Search filter -----------*/
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  border: thin solid var(--main-color);
+  padding: 1rem;
+}
+
+.card {
+  display: inline-block;
+  background-color: var(--main-color);
+  color: var(--second-color);
+  transition: all 0.3s ease-out;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+.card figcaption {
+  text-align: center;
+  padding: 1rem;
+}
+
+.filter {
+  opacity: 0;
+  visibility: hidden;
+  order: 1;
+}
+
+#search-filter {
+  margin-bottom: 2rem;
+}
+
+/*^----------- Draw list -----------*/
+.draw-list {
+  border: var(--main-color) 1px solid;
+}
+.draw-list__li {
+  list-style: none;
+}
+
+/*^----------- Responsive Slider -----------*/
+.slider {
+  position: relative;
+  width: 80%;
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.slider-slides {
+  position: relative;
+  height: 400px;
+}
+
+.slider-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.slider-slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slider-slide img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.slider-btns {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.slider a {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  border: thin solid #020202;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #020202;
+  background-color: #f2f2f2;
+  transition: all 0.3s ease;
+}
+
+.slider a:hover {
+  color: #4d4d4d;
+}
+
+@media only screen and (min-width: 1024px) {
+  /*^----------- Scroll Spy -----------*/
+  body {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: 4rem auto;
+    grid-template-areas:
+      'header header'
+      'main panel';
+  }
+  main {
+    grid-area: main;
+  }
+  .header {
+    grid-area: header;
+  }
+
+  .panel {
+    grid-area: panel;
+    position: sticky;
+    top: 4rem;
+    align-self: start;
+    justify-content: flex-start;
+    background-color: var(--second-color);
+    opacity: 1;
+    transform: translate(0, 0);
+    visibility: visible;
+  }
+
+  .panel-btn {
+    display: none;
+  }
+
+  .menu {
+    justify-content: start;
+    text-align: right;
+  }
+
+  .menu a {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .menu a:hover,
+  .menu a.active {
+    color: var(--second-color);
+    background-color: var(--main-color);
+  }
+
+  .scroll-top-btn {
+    right: initial;
+    left: calc(4.25rem + 1vw);
+  }
+
+  /*^----------- Scroll Spy -----------*/
+  /*! My solution (but bad)*/
+  /* .panel-btn {
+    display: none;
+    visibility: hidden;
+  }
+  .scroll-top-btn {
+    right: calc(15% + 1vw);
+  }
+  .section {
+    margin-right: initial;
+    margin-left: initial;
+    width: 85%;
+    max-width: initial;
+  }
+
+  .panel {
+    top: 4.34rem;
+    right: initial;
+    left: 85%;
+    width: 15%;
+    background-color: var(--main-color);
+    border: var(--main-color) solid thin;
+    overflow: auto;
+    transform: initial;
+    opacity: 1;
+  }
+
+  .menu {
+    width: 100%;
+    text-align: left;
+  }
+
+  .menu a {
+    color: var(--main-color);
+    background-color: var(--second-color);
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  .menu a:hover {
+    color: var(--second-modal-color);
+    background-color: var(--main-modal-color);
+  } */
+}
+
+/*^----------- ContactForm Validations -----------*/
+.contact-form {
+  --form-ok-color: #4caf50;
+  --form-error-color: #f44336;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.contact-form > * {
+  display: block;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.contact-form textarea {
+  resize: none;
+}
+
+.contact-form legend,
+.contact-form-response {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-size: 1rem;
+  font-family: monospace;
+}
+
+.contact-form input[type='submit'] {
+  width: 50%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.contact-form *::placeholder {
+  color: #020202;
+}
+
+.contact-form [required]:valid {
+  border: var(--form-ok-color) solid thin;
+}
+
+.contact-form [required]:invalid {
+  border: var(--form-error-color) solid thin;
+}
+
+.contact-form-error {
+  margin-top: -1rem;
+  color: #f2f2f2;
+  background-color: var(--form-error-color);
+  font-size: 80%;
+  transition: all 800ms ease;
+}
+
+.contact-form-error.is-active {
+  display: block;
+  animation: show-message 1s 1 normal 0s ease-out both;
+}
+
+.none {
+  display: none;
+}
+
+@keyframes show-message {
+  0% {
+    visivibility: hidden;
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}

@@ -1,21 +1,11 @@
 /* reset css */
-:root {
-  --main-font: monospace;
-  --font-size: 16px;
-  --main-color: #f7df1e;
-  --second-color: #222;
-  --main-modal-color: rgba(247,222,30,0.85);
-  --secon-modal-color: rgba(34,34,34,0.85);
-  --container-width: 1200px;
-}
-
 *,
 *::after,
 *::before {
   box-sizing: border-box;
 }
 
-html{
+html {
   font-family: var(--main-font);
   font-size: var(--font-size);
   scroll-behavior: smooth;
