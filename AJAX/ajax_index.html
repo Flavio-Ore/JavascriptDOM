@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asynchronous JavaScript And XML</title>
+  </head>
+  <body>
+    <article class="post-content">
+      <hr />
+      <p>
+        <em><strong>AJAX</strong></em> stands for
+        <em><strong>Asynchronous JavaScript And XML</strong></em
+        >. In short, it is the use of the
+        <em><strong>XMLHttpRequest</strong></em> object to communicate with
+        servers.
+      </p>
+      <p>
+        It can send and receive information in various formats, including
+        <em>JSON</em>, <em>XML</em>, <em>HTML</em> and text files.
+      </p>
+      <p>
+        The appeal of <em><strong>AJAX</strong></em> is its
+        <em>"asynchronous"</em> nature, wich means that it can communicate with
+        the server, exchange data and update the page without having to reload
+        the browser.
+      </p>
+      <p>
+        <img
+          src="https://www.researchgate.net/profile/Markus-Zimmermann-2/publication/280154042/figure/fig1/AS:284541211168773@1444851319682/Classic-and-AJAX-web-application-model-original-image-in-10.png"
+          alt="Modelo AJAX"
+        />
+      </p>
+      <hr />
+      <h2 id="métodos-nativos">Native Methods</h2>
+      <ul>
+        <li>
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Archive/Web/JavaScript/Microsoft_Extensions/ActiveXObject"
+            target="_blank"
+            rel="noopener"
+            >ActiveXObject</a
+          >
+          <small>(IE8 and below, is depreciated)</small>
+        </li>
+        <li>
+          <a
+            href="https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest"
+            target="_blank"
+            rel="noopener"
+            >XMLHttpRequest</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://developer.mozilla.org/es/docs/Web/API/Fetch_API"
+            target="_blank"
+            rel="noopener"
+            >API Fetch</a
+          >
+        </li>
+      </ul>
+      <h2 id="librerías-externas">External Libraries</h2>
+      <ul>
+        <li>
+          <a
+            href="https://api.jquery.com/category/ajax/"
+            target="_blank"
+            rel="noopener"
+            >jQuery.ajax()</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/axios/axios"
+            target="_blank"
+            rel="noopener"
+            >Axios</a
+          >
+        </li>
+        <li>etc.</li>
+      </ul>
+      <p>
+        <em><strong>AJAX</strong></em> is not a technology in itselft. It is
+        actually several independent technologies that come together:
+      </p>
+      <ul>
+        <li>
+          <strong><em>HTML</em></strong> and <strong><em>CSS</em></strong
+          >, to create a standards-based presentations.
+        </li>
+        <li>
+          <strong><em>DOM</em></strong
+          >, for dynamic interaction and manipulation of the presentation.
+        </li>
+        <li>
+          <strong><em>HTML</em></strong
+          >, <strong><em>XML</em></strong> and <strong><em>JSON</em></strong
+          >, for information exchange and manipulation.
+        </li>
+        <li>
+          <strong><em>XMLHttpRequest</em></strong> or
+          <strong><em>Fetch</em></strong
+          >, for asynchronous information exchange
+        </li>
+        <li>
+          <strong><em>JavaScript</em></strong
+          >, to unite all other technologies.
+        </li>
+      </ul>
+      <p>
+        It's also important to consider
+        <a
+          href="https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+          target="_blank"
+          rel="noopener"
+          ><em>HTTP</em> response status codes</a
+        >
+        and <em><strong>AJAX</strong></em> request estatuses.
+      </p>
+      <div class="container-sm table-ajax-states">
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><em>READY_STATE_UNINITIALIZED</em></td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td><em>READY_STATE_LOADING</em></td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td><em>READY_STATE_LOADED</em></td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td><em>READY_STATE_INTERACTIVE</em></td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td><em>READY_STATE_COMPLETE</em></td>
+              <td>4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>Object XMLHttpRequest</h2>
+      <ol id="xhr"></ol>
+      <h2>API Fetch</h2>
+      <ol id="fetch"></ol>
+      <h2>API Fetch + Async-Await</h2>
+      <ol id="fetch-async"></ol>
+      <h2>Axios</h2>
+      <ol id="axios"></ol>
+      <h2>Axios + Async-Await</h2>
+      <ol id="axios-async"></ol>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    </article>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="ajax.js"></script>
+  </body>
+</html>
