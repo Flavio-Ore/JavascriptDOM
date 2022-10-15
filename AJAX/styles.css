@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: monospace;
+  color: #f2f2f2;
+  background-color: #020202;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.crud {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80vw;
+}
+
+.crud-article--1 {
+  max-width: 1020px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'addUser addUser'
+    'form form'
+    'form form';
+  margin-bottom: 10%;
+  border: 0.3px #ffccccc2 solid;
+}
+
+.crud-title {
+  grid-area: addUser;
+  text-align: center;
+}
+
+.crud-form {
+  grid-area: form;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-areas:
+    'username online online'
+    'submit submit submit';
+  /*outline: #fcc 0.5px solid;*/
+}
+
+.crud-form > * {
+  display: block;
+  padding: 0.5rem;
+  margin: 0.5rem auto;
+  width: 100%;
+  border-radius: 1%;
+  border-style: none;
+  /*outline: #fcc 0.5px solid;*/
+}
+
+.username {
+  grid-area: username;
+  font-family: monospace;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.username::placeholder {
+  color: #020202;
+}
+
+.online {
+  grid-area: online;
+  font-size: 1.1rem;
+  width: 50%;
+  text-align: left;
+  justify-content: end;
+}
+
+.status-checkbox {
+  width: 1.2rem;
+  justify-content: start;
+  cursor: pointer;
+}
+
+.submit {
+  grid-area: submit;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  background-color: #f2f2f2;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out;
+}
+
+.crud-article--2 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10%;
+
+  border: 0.3px #ffccccc2 solid;
+}
+
+.crud-article--2 h2 {
+  text-align: center;
+  color: #fcc;
+}
+
+.crud-table * {
+  text-align: center;
+}
+
+.crud-table tbody td {
+  padding: 0.5rem 0;
+  /*outline: #fcc 0.01px solid;*/
+}
+
+.crud-table th {
+  font-size: 1.5rem;
+}
+
+.crud-table button {
+  cursor: pointer;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-style: none;
+  transition: background-color 0.3s ease-out;
+}
+
+.crud-table button:hover,
+.submit:hover {
+  background-color: #ffccccc2;
+}

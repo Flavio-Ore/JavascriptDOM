@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>C.R.U.D API REST FETCH</title>
+  </head>
+  <body>
+    <h1>CRUD API REST FETCH</h1>
+    <section class="crud">
+      <article class="crud-article--1">
+        <h2 class="crud-title">Add User</h2>
+        <form class="crud-form">
+          <input
+            class="username"
+            type="text"
+            name="username"
+            placeholder="Username..."
+            required
+          />
+          <span class="online"
+            >Online?:
+            <input
+              class="status-checkbox"
+              type="checkbox"
+              name="status"
+              checked
+            />
+          </span>
+
+          <input class="submit" type="submit" value="Send" />
+          <input type="hidden" name="id" />
+        </form>
+      </article>
+      <article class="crud-article--2">
+        <h2>See Users</h2>
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+    </section>
+    <template id="crud-template">
+      <tr>
+        <td class="name"></td>
+        <td class="status"></td>
+        <td>
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+        </td>
+      </tr>
+    </template>
+    <script>
+      const d = document,
+        title = d.querySelector('.crud-title'),
+        form = d.querySelector('.crud-form'),
+        table = d.querySelector('.crud-table'),
+        template = d.getElementById('crud-template').content,
+        fragment = d.createDocumentFragment()
+
+      const getAll = async () => {
+        //Read - GET
+        let clone
+        try {
+          let res = await fetch('http://localhost:3000/users'), //Default GET
+            json = await res.json()
+
+          if (!res.ok) throw { status: res.status, statusText: res.statusText }
+
+          json.forEach((el) => {
+            template.querySelector('.name').textContent = el.name
+            template.querySelector('.status').textContent = el.status
+              ? 'Online'
+              : 'Offline'
+            template.querySelector('.status').style.color = el.status
+              ? '#4caf50'
+              : '#f44336'
+
+            template.querySelector('.edit').dataset.id = el.id
+            template.querySelector('.edit').dataset.name = el.name
+            template.querySelector('.edit').dataset.status = el.status
+            template.querySelector('.delete').dataset.id = el.id
+
+            clone = d.importNode(template, true)
+            fragment.appendChild(clone)
+          })
+
+          table.querySelector('tbody').appendChild(fragment)
+        } catch (err) {
+          let msg = err.statusText || 'An error occurred'
+          table.insertAdjacentHTML(
+            'afterend',
+            `<p><b>Error ${err.status}: ${err.statusText}</b></p>`
+          )
+        }
+      }
+
+      d.addEventListener('DOMContentLoaded', getAll)
+
+      d.addEventListener('submit', async (e) => {
+        if (e.target === form) {
+          e.preventDefault()
+
+          if (!e.target.id.value) {
+            //Create - POST
+            try {
+              let options = {
+                  method: 'POST',
+                  headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                  },
+                  body: JSON.stringify({
+                    name: e.target.username.value,
+                    status: e.target.status.checked,
+                  }),
+                },
+                res = await fetch('http://localhost:3000/users', options),
+                json = await res.json()
+
+              if (!res.ok)
+                throw { status: res.status, statusText: res.statusText }
+
+              location.reload()
+            } catch (err) {
+              let msg = err.statusText || 'An error occurred'
+              form.insertAdjacentHTML(
+                'afterend',
+                `<p><b>Error ${err.status}: ${err.statusText}</b></p>`
+              )
+            }
+          } else {
+            //Update - PUT
+            try {
+              let options = {
+                  method: 'PUT',
+                  headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                  },
+                  body: JSON.stringify({
+                    name: e.target.username.value,
+                    status: e.target.status.checked,
+                  }),
+                },
+                res = await fetch(
+                  `http://localhost:3000/users/${e.target.id.value}`,
+                  options
+                ),
+                json = await res.json()
+
+              if (!res.ok)
+                throw { status: res.status, statusText: res.statusText }
+              location.reload()
+            } catch (err) {
+              let msg = err.statusText || 'And error occurred'
+              form.insertAdjacentHTML(
+                'afterend',
+                `<p><b>Error ${err.status}: ${err.statusText}</b></p>`
+              )
+            }
+          }
+        }
+      })
+
+      d.addEventListener('click', async (e) => {
+        if (e.target.matches('.edit')) {
+          title.textContent = 'Editing User: ' + e.target.dataset.name
+          form.username.value = e.target.dataset.name
+          form.status.checked =
+            e.target.dataset.status === 'true' ? true : false
+          form.id.value = e.target.dataset.id
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          })
+        }
+        if (e.target.matches('.delete')) {
+          let isDelete = confirm(
+            `Are you sure you want to delete this user? (Current ID: ${e.target.dataset.id})`
+          )
+          //Delete - DELETE
+          if (isDelete) {
+            try {
+              let options = {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                  },
+                },
+                res = await fetch(
+                  `http://localhost:3000/users/${e.target.dataset.id}`,
+                  options
+                ),
+                json = await res.json()
+
+              if (!res.ok)
+                throw { status: res.status, statusText: res.statusText }
+              location.reload()
+            } catch (err) {
+              let msg = err.statusText || 'And error occurred'
+              alert(`<p><b>Error ${err.status}: ${err.statusText}</b></p>`)
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
