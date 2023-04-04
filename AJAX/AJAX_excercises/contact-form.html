@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>form submission with xhr and formsubmit</title>
+  </head>
+  <style>
+    /*^----------- ContactForm Validations -----------*/
+    .contact-form {
+      --form-ok-color: #4caf50;
+      --form-error-color: #f44336;
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+    }
+
+    .contact-form > * {
+      display: block;
+      padding: 0.5rem;
+      margin: 1rem auto;
+      width: 100%;
+    }
+
+    .contact-form textarea {
+      resize: none;
+    }
+
+    .contact-form legend,
+    .contact-form-response {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      font-size: 1rem;
+      font-family: monospace;
+    }
+
+    .contact-form input[type='submit'] {
+      width: 50%;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .contact-form *::placeholder {
+      color: #020202;
+    }
+
+    .contact-form [required]:valid {
+      border: var(--form-ok-color) solid thin;
+    }
+
+    .contact-form [required]:invalid {
+      border: var(--form-error-color) solid thin;
+    }
+
+    .contact-form-error {
+      margin-top: -1rem;
+      color: #f2f2f2;
+      background-color: var(--form-error-color);
+      font-size: 80%;
+      transition: all 800ms ease;
+    }
+
+    .contact-form-error.is-active {
+      display: block;
+      animation: show-message 1s 1 normal 0s ease-out both;
+    }
+
+    .contact-form-loader {
+      text-align: center;
+    }
+
+    .none {
+      display: none;
+    }
+
+    @keyframes show-message {
+      0% {
+        visivibility: hidden;
+        opacity: 0;
+      }
+      100% {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  </style>
+  <body>
+    <h1>Form validation</h1>
+    <form
+      class="contact-form"
+      action="https://formsubmit.co/oregonz.go@gmail.com"
+      target="_blank"
+      method="POST"
+    >
+      <legend>Send us your comments</legend>
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter your name"
+        title="This field accepts only words and blanks. This field can not exceed 50 characters"
+        pattern="^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]{1,50}$"
+        required
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        title="Invalid email"
+        pattern="^[A-Za-z0-9]+(\.[A-Za-z0-9]+|-[A-Za-z0-9]+|_[A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,15})$"
+        required
+      />
+      <input
+        type="text"
+        name="subject"
+        placeholder="Subject"
+        title="The subject is required"
+        required
+      />
+      <!--The pattern is written as a data attribute because the "pattern" attribute is not good enough at validating text when it is sent to a database.-->
+      <textarea
+        name="comments"
+        cols="50"
+        rows="5"
+        placeholder="Enter your comments"
+        title="Your comment can not exceed 50 characters 255 characters"
+        data-pattern="^(\n|.){1,255}$"
+        required
+      ></textarea>
+      <input type="submit" value="Send" />
+      <div class="contact-form-loader none">
+        <img src="assets/svg/three-dots.svg" alt="Loading" />
+      </div>
+      <div class="contact-form-response none">
+        <p>The data has been sent</p>
+      </div>
+    </form>
+    <script>
+      const d = document
+      function contactForm() {
+        const form = d.querySelector('.contact-form'),
+          inputs = d.querySelectorAll('.contact-form [required]')
+
+        let span, input, pattern, regex
+
+        inputs.forEach(input => {
+          span = d.createElement('span')
+          span.id = input.name
+          span.textContent = input.title
+          span.classList.add('contact-form-error', 'none')
+          input.insertAdjacentElement('afterend', span)
+        })
+
+        d.addEventListener('input', e => {
+          if (e.target.matches('.contact-form [required]')) {
+            input = e.target
+            pattern = input.pattern || input.dataset.pattern
+
+            if (pattern && input.value !== '') {
+              regex = new RegExp(pattern, 'i')
+              return !regex.exec(input.value)
+                ? d.getElementById(input.name).classList.add('is-active')
+                : d.getElementById(input.name).classList.remove('is-active')
+            }
+
+            if (pattern && input.value === '') {
+              regex = new RegExp(pattern, 'i')
+              return !regex.exec(input.value)
+                ? d.getElementById(input.name).classList.remove('is-active')
+                : d.getElementById(input.name).classList.add('is-active')
+            }
+
+            if (!pattern)
+              return input.value === ''
+                ? d.getElementById(input.name).classList.add('is-active')
+                : d.getElementById(input.name).classList.remove('is-active')
+          }
+        })
+
+        d.addEventListener('submit', async e => {
+          e.preventDefault()
+          const loader = d.querySelector('.contact-form-loader'),
+            response = d.querySelector('.contact-form-response')
+
+          loader.classList.remove('none')
+
+          try {
+            const res = await fetch(
+                'https://formsubmit.co/ajax/oregonz.go@gmail.com',
+                {
+                  method: 'POST',
+                  body: new FormData(e.target),
+                }
+              ),
+              json = await res.json()
+
+            if (!res.ok)
+              throw { status: res.status, statusText: res.statusText }
+
+            loader.classList.add('none')
+            response.classList.remove('none')
+            console.log(json)
+            response.innerHTML = `<p>${json.message}</p>`
+            form.reset()
+          } catch (err) {
+            let msg = err.statusText || 'An error has occurred, try again'
+            response.innerHTML = `Error: ${err.status ?? 'Unknown'}: ${msg}`
+            console.log(err)
+          } finally {
+            setTimeout(() => {
+              response.classList.add('none')
+              response.innerHTML = ''
+            }, 3000)
+          }
+        })
+      }
+
+      d.addEventListener('DOMContentLoaded', contactForm)
+    </script>
+  </body>
+</html>

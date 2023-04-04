@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stripe checkout</title>
+    <style>
+      *,
+      ::before,
+      ::after {
+        box-sizing: inherit;
+      }
+      html {
+        box-sizing: border-box;
+        font-family: sans-serif;
+        font-size: 16px;
+      }
+      .peru {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .peru > * {
+        flex: 1 1 200px;
+        margin: 1rem;
+      }
+      .peru-plato {
+        background-color: crimson;
+        color: chartreuse;
+        font-size: 125%;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s ease-out;
+      }
+      .peru-plato:hover {
+        opacity: 0.9;
+        transform: scale(0.9);
+      }
+      .peru-plato img {
+        max-width: 100%;
+        height: auto;
+      }
+      .peru-plato figcaption {
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Stripe checkout</h1>
+    <section id="peru" class="peru"></section>
+    <template id="peru-template">
+      <figure class="peru-plato">
+        <img />
+        <figcaption></figcaption>
+      </figure>
+    </template>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="assets/stripe/stripe-checkout.js" type="module"></script>
+  </body>
+</html>

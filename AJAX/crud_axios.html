@@ -12,9 +12,14 @@
       <article>
         <h2 class="crud-title">Add User</h2>
         <form class="crud-form">
-          <input type="text" name="name" placeholder="Username..." required />
+          <input
+            type="text"
+            name="username"
+            placeholder="Username..."
+            required
+          />
           <br />
-          <input type="checkbox" value="status" required />
+          <input type="checkbox" name="status" checked />
           <br />
           <input type="submit" value="Send" />
           <input type="hidden" name="id" />
@@ -43,6 +48,7 @@
         </td>
       </tr>
     </template>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       const d = document,
         table = d.querySelector('.crud-table'),
@@ -50,6 +56,139 @@
         title = d.querySelector('.crud-title'),
         template = d.getElementById('crud-template').content,
         fragment = d.createDocumentFragment()
+
+      const getAll = async () => {
+        let li, clone, msg
+        try {
+          //Read - GET
+          let res = await axios.get('http://localhost:3000/users'),
+            json = await res.data
+
+          //Axios have best error control
+
+          json.forEach((el) => {
+            template.querySelector('.name').textContent = el.name
+            template.querySelector('.status').textContent = el.status
+              ? 'Online'
+              : 'Offline'
+            template.querySelector('.edit').dataset.id = el.id
+            template.querySelector('.delete').dataset.id = el.id
+            template.querySelector('.edit').dataset.name = el.name
+            template.querySelector('.edit').dataset.status = el.status
+              ? 'true'
+              : 'false'
+
+            clone = d.importNode(template, true)
+            fragment.appendChild(clone)
+          })
+          table.querySelector('tbody').appendChild(fragment)
+        } catch (err) {
+          console.log(err)
+          msg = err.response.statusText || 'An error occurred'
+          table.insertAdjacentHTML(
+            'afterend',
+            `<p><b>Error ${err.response.status ?? 'Unknown'}: ${msg}</b></p>`
+          )
+        }
+      }
+
+      d.addEventListener('DOMContentLoaded', getAll)
+
+      d.addEventListener('submit', async (e) => {
+        if (e.target === form) {
+          e.preventDefault()
+          if (!e.target.id.value) {
+            //Create - POST
+            try {
+              let options = {
+                  method: 'POST',
+                  headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                  },
+                  data: JSON.stringify({
+                    name: e.target.username.value,
+                    status: e.target.status.checked,
+                  }),
+                },
+                /*This doesn't work
+                res = await axios('http://localhost:3000/users', options),*/
+                res = await axios.post('http://localhost:3000/users', {
+                  name: e.target.username.value,
+                  status: e.target.status.checked,
+                }),
+                json = await res.data
+
+              location.reload()
+            } catch (err) {
+              console.warn(err)
+              let msg = err.response.statusText || 'An error occurred'
+              form.insertAdjacentHTML(
+                'afterend',
+                `<p><b>Error ${
+                  err.response.status ?? 'Unknown'
+                }: ${msg}</b></p>`
+              )
+              setTimeout(() => location.reload(), 4000)
+            }
+          } else {
+            //Update - PUT
+            try {
+              let res = await axios.put(
+                `http://localhost:3000/users/${e.target.id.value}`,
+                {
+                  name: e.target.username.value,
+                  status: e.target.status.checked,
+                }
+              )
+              location.reload()
+            } catch (err) {
+              console.warn(err)
+              let msg = err.response.statusText || 'An error occurred'
+              form.insertAdjacentHTML(
+                'afterend',
+                `<p><b>Error ${err.response.status}: ${msg}</b></p>`
+              )
+            }
+          }
+        }
+      })
+
+      d.addEventListener('click', async (e) => {
+        if (e.target.matches('.edit')) {
+          title.textContent = 'Editing the user ' + e.target.dataset.name
+          form.username.value = e.target.dataset.name
+          form.status.checked =
+            e.target.dataset.status === 'true' ? true : false
+          form.id.value = e.target.dataset.id
+        }
+
+        if (e.target.matches('.delete')) {
+          //Delete - DELETE
+          try {
+            let isDelete = confirm(
+              `Delete this user? (id: ${e.target.dataset.id})`
+            )
+            let options = {
+                headers: {
+                  'Content-type': 'application/json; charset=utf-8',
+                },
+              },
+              res = await axios.delete(
+                `http://localhost:3000/users/${e.target.dataset.id}`,
+                options
+              ),
+              json = await res.data
+            location.reload()
+          } catch (err) {
+            console.log(err)
+            let msg = err.response.statusText || 'An error occurred'
+            form.insertAdjacentHTML(
+              'afterend',
+              `<p><b>Error ${err.response.status}: ${msg}</b></p>`
+            )
+          }
+        }
+      })
     </script>
   </body>
 </html>

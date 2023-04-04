@@ -8,46 +8,47 @@
     <title>C.R.U.D API REST FETCH</title>
   </head>
   <body>
-    <h1>CRUD API REST FETCH</h1>
-    <section class="crud">
-      <article class="crud-article--1">
-        <h2 class="crud-title">Add User</h2>
-        <form class="crud-form">
-          <input
-            class="username"
-            type="text"
-            name="username"
-            placeholder="Username..."
-            required
-          />
-          <span class="online"
-            >Online?:
+    <main>
+      <h1>CRUD API REST FETCH</h1>
+      <section class="crud">
+        <article class="crud-article--1">
+          <h2 class="crud-title">Add User</h2>
+          <form class="crud-form">
             <input
-              class="status-checkbox"
-              type="checkbox"
-              name="status"
-              checked
+              class="username"
+              type="text"
+              name="username"
+              placeholder="Username..."
+              required
             />
-          </span>
-
-          <input class="submit" type="submit" value="Send" />
-          <input type="hidden" name="id" />
-        </form>
-      </article>
-      <article class="crud-article--2">
-        <h2>See Users</h2>
-        <table class="crud-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Options</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </article>
-    </section>
+            <span class="online"
+              >Online?:
+              <input
+                class="status-checkbox"
+                type="checkbox"
+                name="status"
+                checked
+              />
+            </span>
+            <input class="submit" type="submit" value="Send" />
+            <input type="hidden" name="id" />
+          </form>
+        </article>
+        <article class="crud-article--2">
+          <h2>See Users</h2>
+          <table class="crud-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </article>
+      </section>
+    </main>
     <template id="crud-template">
       <tr>
         <td class="name"></td>
@@ -68,14 +69,15 @@
 
       const getAll = async () => {
         //Read - GET
-        let clone
+        let clone, res, json
         try {
-          let res = await fetch('http://localhost:3000/users'), //Default GET
-            json = await res.json()
+          res = await fetch('http://localhost:3000/users') //Default GET
+          json = await res.json()
 
+          //throw is an error that returns their content to catch
           if (!res.ok) throw { status: res.status, statusText: res.statusText }
 
-          json.forEach((el) => {
+          json.forEach(el => {
             template.querySelector('.name').textContent = el.name
             template.querySelector('.status').textContent = el.status
               ? 'Online'
@@ -95,17 +97,18 @@
 
           table.querySelector('tbody').appendChild(fragment)
         } catch (err) {
+          console.log(err)
           let msg = err.statusText || 'An error occurred'
           table.insertAdjacentHTML(
             'afterend',
-            `<p><b>Error ${err.status}: ${err.statusText}</b></p>`
+            `<p><b>Error ${err.status ?? 'Unknown'}: ${msg}</b></p>`
           )
         }
       }
 
       d.addEventListener('DOMContentLoaded', getAll)
 
-      d.addEventListener('submit', async (e) => {
+      d.addEventListener('submit', async e => {
         if (e.target === form) {
           e.preventDefault()
 
@@ -126,7 +129,10 @@
                 json = await res.json()
 
               if (!res.ok)
-                throw { status: res.status, statusText: res.statusText }
+                throw new Error({
+                  status: res.status,
+                  statusText: res.statusText,
+                })
 
               location.reload()
             } catch (err) {
@@ -169,7 +175,7 @@
         }
       })
 
-      d.addEventListener('click', async (e) => {
+      d.addEventListener('click', async e => {
         if (e.target.matches('.edit')) {
           title.textContent = 'Editing User: ' + e.target.dataset.name
           form.username.value = e.target.dataset.name

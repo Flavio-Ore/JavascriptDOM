@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API copomex</title>
+    <style>
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+      }
+      body {
+        color: #f2f2f2;
+        background-color: #020202;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>México</h1>
+    <p>
+      <b
+        >⚠️Actualización⚠️ Ahora esta API necesita un token pero pueden crear el
+        token siguiendo los pasos que te indica al inicio de la documentación.
+      </b>
+    </p>
+
+    <label for="select-primary">Estados</label>
+    <select id="select-primary" name="primary">
+      <option value="">Elige un Estado</option>
+    </select>
+    <p></p>
+
+    <label for="select-secondary">Municipio</label>
+    <select id="select-secondary" name="secondary">
+      <option value="">Elige un Municipio</option>
+    </select>
+    <p></p>
+
+    <script>
+      const d = document,
+        $selectPrimary = d.getElementById('select-primary'),
+        $selectSecondary = d.getElementById('select-secondary')
+
+      let $primaryOptions, $secondaryOptions
+
+      function loadStates() {
+        /*
+        Estados:
+        {
+          "error": false,
+          "code_error": 0,
+          "error_message": null,
+          "response": {
+          "municipios": [
+              "Aguascalientes",
+              "San Francisco de los Romo",
+              "El Llano",
+              "Rincón de Romos",
+              "Cosío",
+              "San José de Gracia",
+              "Tepezalá",
+              "Pabellón de Arteaga",
+              "Asientos",
+              "Calvillo",
+              "Jesús María"
+          ]
+        }
+      }
+      */
+        fetch('https://api.copomex.com/query/get_estados?token=pruebas')
+          .then(res => (res.ok ? res.json() : Promise.reject(res)))
+          .then(json => {
+            console.log(json)
+
+            $primaryOptions = `<option value="">Elige un Estado</option>`
+            json.response.estado.forEach(estado => {
+              $primaryOptions += `<option value="${estado}">${estado}</option>`
+            })
+            $selectPrimary.innerHTML = $primaryOptions
+          })
+          .catch(err => {
+            console.log(err)
+            $selectPrimary.nextElementSibling.textContent = `
+            Error ${err.status || 'Unknown'}: ${
+              err.statusText || 'An error has ocurred'
+            }.
+          `
+          })
+      }
+
+      function loadTowns(state) {
+        fetch(
+          `https://api.copomex.com/query/get_municipio_por_estado/${state}?token=pruebas`
+        )
+          .then(res => {
+            res.ok ? res.json() : Promise.reject(res)
+          })
+          .then(json => {
+            console.log(json)
+
+            $secondaryOptions = `<option value="">Elige un Estado</option>`
+            json.response.estado.forEach(estado => {
+              $secondaryOptions += `<option value="${estado}">${estado}</option>`
+            })
+            $selectPrimary.innerHTML = $secondaryOptions
+          })
+          .catch(error => {
+            console.error(error)
+            $selectSecondary.nextElementSibling.textContent = `Error ${
+              error.status || 'Unknown'
+            }: ${error.statusText || 'An error has ocurred'}`
+          })
+      }
+
+      d.addEventListener('DOMContentLoaded', loadStates)
+      $selectPrimary.addEventListener('change', e => loadTowns(e.target.value))
+    </script>
+  </body>
+</html>

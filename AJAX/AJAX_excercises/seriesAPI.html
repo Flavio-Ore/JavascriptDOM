@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TVMAZE API - Fetch async-await</title>
+    <style>
+      .grid-fluid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      .loader {
+        display: block;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main">
+      <h1>Movie Browser</h1>
+      <input
+        type="search"
+        id="search"
+        placeholder="Browse tv shows..."
+        autocomplete="off"
+      />
+      <section class="grid-fluid" id="shows"></section>
+    </main>
+    <template id="template-movies">
+      <article>
+        <h3 class="title"></h3>
+        <figure>
+          <img class="img" src="" alt="" />
+          <figcaption class="status"></figcaption>
+        </figure>
+        <p class="description"></p>
+        <a></a>
+      </article>
+    </template>
+    <script src="/assets/tvAPI/tvmazeAPI.js"></script>
+  </body>
+</html>

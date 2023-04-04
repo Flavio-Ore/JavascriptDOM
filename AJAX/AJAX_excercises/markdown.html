@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown Blog & Showdown.js</title>
+    <style>
+      *,
+      ::before,
+      ::after {
+        box-sizing: border-box;
+      }
+      body {
+        color: #f2f2ff;
+        background-color: #020202;
+        margin: 0;
+        text-align: center;
+      }
+      .btn-file {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .btn-submit {
+        display: block;
+        width: 25%;
+        height: 50px;
+      }
+      .file-markdown {
+        display: block;
+      }
+      .converter {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        min-height: 100vh;
+        outline: #f2f2ff solid 1px;
+      }
+
+      .markdown {
+        outline: #f2f2ff solid 1px;
+      }
+      .markdown-area {
+        color: #f2f2ff;
+        background-color: #21262d;
+        width: 100%;
+        min-height: 100%;
+
+        resize: none;
+      }
+      .html {
+        outline: #f2f2ff solid 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Markdown to HTML</h1>
+    <div class="converter">
+      <form class="markdown">
+        <div class="btn-file">
+          <button class="btn-submit" id="btn-submit" type="submit">
+            TO HTML
+          </button>
+          <input class="file-markdown" type="file" name="file-markdown" />
+        </div>
+        <textarea class="markdown-area" name="markdown"></textarea>
+      </form>
+      <section class="html"></section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.0.3/dist/showdown.min.js"></script>
+    <script>
+      const d = document,
+        converter = new showdown.Converter(),
+        form = d.querySelector('.markdown'),
+        submit = d.getElementById('btn-submit'),
+        html = d.querySelector('.html')
+
+      d.addEventListener('submit', async e => {
+        e.preventDefault()
+        if (e.target === form) {
+          try {
+            let res = await fetch('./assets/showdown_js/example.md')
+            if (!res.ok)
+              throw { status: res.status, statusText: res.statusText }
+            let text = await res.text()
+            html.innerHTML = converter.makeHtml(text)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
